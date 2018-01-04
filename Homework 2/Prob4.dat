@@ -1,0 +1,50 @@
+#NSC MCNFP Problem Formulation - data file for problem instance
+#Charles Nicholson, ISE 5113, 2015
+
+#use with MCNFP.txt model
+#note: default arc costs and lower bounds are 0
+#      default arc upper bounds are infinity
+#      default node requirements are 0
+
+
+
+set NODES :=  	
+	s       #We can buy the table cloth for each day 1 to 5 
+	d1 d2 d3 d4 d5    #demand for table cloths for each day 1 to 5
+	l1 l2 l3 l4;      #Laundering
+
+set ARCS :=
+	(s, *)d1 l1 l2 l3 l4
+	(l1, d2)
+	(l2, d3)
+	(l3, d4)
+	(l4, d5)
+	(d1, *)l1 l2 l3
+	(d2, *)l2 l3 l4
+	(d3, *)l3 l4
+	(d4, *)l4
+	(d5,s);
+
+param c:=
+	[s, *]d1 8 l1 8 l2 8 l3 8 l4 8	
+	[d1, *]l1 3.75 l2 1.25 l3 0.75
+	[d2, *]l2 3.75 l3 1.25 l4 0.75
+	[d3, *]l3 3.75 l4 1.25
+	[d4,l4]3.75;
+
+param l:=
+	[d1, *]l1 0 l2 0 l3 0
+	[d2, *]l2 0 l3 0 l4 0
+	[d3, *]l3 0 l4 0
+	[d4,l4]0
+	[s,d1]400
+	[l1,d2]375
+	[l2,d3]515
+	[l3,d4]395
+	[l4,d5]620
+	[d5,s]620;
+
+param u:=
+	[s,d1]400
+	[d1,l3]20
+	[d2,l4]20;

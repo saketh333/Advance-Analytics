@@ -1,0 +1,59 @@
+#NSC MCNFP Problem Formulation - data file for problem instance
+#Charles Nicholson, ISE 5113, 2015
+
+#use with MCNFP.txt model
+#note: default arc costs and lower bounds are 0
+#      default arc upper bounds are infinity
+#      default node requirements are 0
+
+set NODES :=  	s
+		molEnd
+		molD bosD nyD dfwD
+		molA bosA nyA dfwA
+		e;
+
+set ARCS := 	
+		(s, *)molD bosD nyD dfwD
+		(bosA,e)
+		(nyA,e)
+		(dfwA,e)
+		(molA,e)
+		(molEnd,molD)
+		(molA,molEnd)
+		(molD, *) bosA
+		(bosD, *) nyA
+		(dfwD, *) molA
+		(bosA,bosD)
+		(nyA,nyD)
+		(nyD,dfwA)
+		(dfwA,dfwD)
+		(e,s);
+param c:=
+	[s, *]molD 0.593 bosD 1.246 nyD 1.115 dfwD 0.897;
+param l:=
+	[molD,bosA]7000
+	[bosD,nyA]2400
+	[nyD,dfwA]2400
+	[dfwD,molA]2400
+	[bosA,bosD]2400
+	[nyA,nyD]2400
+	[dfwA,dfwD]2400
+	[molA,molEnd]2400
+	[bosA,e]4800
+	[nyA,e]2000
+	[dfwA,e]5300
+	[molA,e]3100
+	[molEnd,molD]2400;
+param u:=
+	[molD,bosA]9200
+	[bosA,bosD]2400
+	[nyA,nyD]2400
+	[dfwA,dfwD]2400
+	[molA,molEnd]2400
+	[bosA,e]4800
+	[nyA,e]2000
+	[dfwA,e]5300
+	[molA,e]3100
+	[bosD,nyA]8800
+	[nyD,dfwA]8000
+	[dfwD,molA]8000;
